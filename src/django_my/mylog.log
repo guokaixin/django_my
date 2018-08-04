@@ -1,0 +1,514 @@
+*** Starting uWSGI 2.0.17.1 (64bit) on [Sat Aug  4 17:51:26 2018] ***
+compiled with version: 5.4.0 20160609 on 03 August 2018 19:15:18
+os: Linux-4.10.1-041001-generic #201702260735 SMP Sun Feb 26 12:36:48 UTC 2017
+nodename: iZhp3cq93udl835m6etvgaZ
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/ubuntu/django_my/src/django_my
+detected binary path: /usr/local/bin/uwsgi
+chdir() to /home/ubuntu/django_my/src/django_my
+your processes number limit is 7840
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/ubuntu/django_my/src/django_my/my.sock fd 3
+Python version: 2.7.12 (default, Dec  4 2017, 14:50:18)  [GCC 5.4.0 20160609]
+!!! Python Home is not a directory: /home/ubuntu/django_my/env !!!
+Set PythonHome to /home/ubuntu/django_my/env
+ImportError: No module named site
+VACUUM: unix socket /home/ubuntu/django_my/src/django_my/my.sock removed.
+*** Starting uWSGI 2.0.17.1 (64bit) on [Sat Aug  4 17:56:27 2018] ***
+compiled with version: 5.4.0 20160609 on 03 August 2018 19:15:18
+os: Linux-4.10.1-041001-generic #201702260735 SMP Sun Feb 26 12:36:48 UTC 2017
+nodename: iZhp3cq93udl835m6etvgaZ
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/ubuntu/django_my/src/django_my
+detected binary path: /usr/local/bin/uwsgi
+chdir() to /home/ubuntu/django_my/src/django_my
+your processes number limit is 7840
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/ubuntu/django_my/src/django_my/my.sock fd 3
+Python version: 2.7.12 (default, Dec  4 2017, 14:50:18)  [GCC 5.4.0 20160609]
+Set PythonHome to /home/ubuntu/django_my/env
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0xc8b350
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 364600 bytes (356 KB) for 4 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0xc8b350 pid: 16109 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16109)
+spawned uWSGI worker 1 (pid: 16111, cores: 1)
+spawned uWSGI worker 2 (pid: 16112, cores: 1)
+spawned uWSGI worker 3 (pid: 16113, cores: 1)
+spawned uWSGI worker 4 (pid: 16114, cores: 1)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16113|app: 0|req: 1/1] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:56:30 2018] GET /admin/ => generated 0 bytes in 58 msecs (HTTP/1.1 500) 0 headers in 0 bytes (1 switches on core 0)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16111|app: 0|req: 1/2] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:56:32 2018] GET /admin/ => generated 0 bytes in 59 msecs (HTTP/1.1 500) 0 headers in 0 bytes (0 switches on core 0)
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 0 seconds
+worker 2 buried after 0 seconds
+worker 3 buried after 0 seconds
+worker 4 buried after 0 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/ubuntu/django_my/src/django_my/my.sock removed.
+*** Starting uWSGI 2.0.17.1 (64bit) on [Sat Aug  4 17:56:52 2018] ***
+compiled with version: 5.4.0 20160609 on 03 August 2018 19:15:18
+os: Linux-4.10.1-041001-generic #201702260735 SMP Sun Feb 26 12:36:48 UTC 2017
+nodename: iZhp3cq93udl835m6etvgaZ
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/ubuntu/django_my/src/django_my
+detected binary path: /usr/local/bin/uwsgi
+chdir() to /home/ubuntu/django_my/src/django_my
+your processes number limit is 7840
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/ubuntu/django_my/src/django_my/my.sock fd 3
+Python version: 2.7.12 (default, Dec  4 2017, 14:50:18)  [GCC 5.4.0 20160609]
+Set PythonHome to /home/ubuntu/django_my/env
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x189d350
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 364600 bytes (356 KB) for 4 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x189d350 pid: 16156 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16156)
+spawned uWSGI worker 1 (pid: 16158, cores: 1)
+spawned uWSGI worker 2 (pid: 16159, cores: 1)
+spawned uWSGI worker 3 (pid: 16160, cores: 1)
+spawned uWSGI worker 4 (pid: 16161, cores: 1)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16160|app: 0|req: 1/1] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:56:54 2018] GET /admin/ => generated 0 bytes in 53 msecs (HTTP/1.1 500) 0 headers in 0 bytes (0 switches on core 0)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16158|app: 0|req: 1/2] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:56:59 2018] GET /admin/ => generated 0 bytes in 53 msecs (HTTP/1.1 500) 0 headers in 0 bytes (1 switches on core 0)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16159|app: 0|req: 1/3] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:57:19 2018] GET /admin/ => generated 0 bytes in 54 msecs (HTTP/1.1 500) 0 headers in 0 bytes (1 switches on core 0)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16158|app: 0|req: 2/4] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:57:19 2018] GET /admin/ => generated 0 bytes in 6 msecs (HTTP/1.1 500) 0 headers in 0 bytes (0 switches on core 0)
+Sat Aug  4 09:57:23 2018 - *** PAUSE (press start to resume, if you do not have a joypad send SIGTSTP) ***
+Sat Aug  4 09:57:23 2018 - *** worker 2 suspended ***
+Sat Aug  4 09:57:23 2018 - *** worker 3 suspended ***
+Sat Aug  4 09:57:23 2018 - *** worker 4 suspended ***
+Sat Aug  4 09:57:23 2018 - *** worker 1 suspended ***
+Sat Aug  4 09:57:29 2018 - *** (SIGTSTP received) resuming workers ***
+Sat Aug  4 09:57:29 2018 - *** worker 3 resumed ***
+Sat Aug  4 09:57:29 2018 - *** worker 2 resumed ***
+Sat Aug  4 09:57:29 2018 - *** worker 4 resumed ***
+Sat Aug  4 09:57:29 2018 - *** worker 1 resumed ***
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/ubuntu/django_my/src/django_my/my.sock removed.
+*** Starting uWSGI 2.0.17.1 (64bit) on [Sat Aug  4 17:57:49 2018] ***
+compiled with version: 5.4.0 20160609 on 03 August 2018 19:15:18
+os: Linux-4.10.1-041001-generic #201702260735 SMP Sun Feb 26 12:36:48 UTC 2017
+nodename: iZhp3cq93udl835m6etvgaZ
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/ubuntu/django_my/src/django_my
+detected binary path: /usr/local/bin/uwsgi
+chdir() to /home/ubuntu/django_my/src/django_my
+your processes number limit is 7840
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/ubuntu/django_my/src/django_my/my.sock fd 3
+Python version: 2.7.12 (default, Dec  4 2017, 14:50:18)  [GCC 5.4.0 20160609]
+Set PythonHome to /home/ubuntu/django_my/env
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x1b97350
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 364600 bytes (356 KB) for 4 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x1b97350 pid: 16195 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16195)
+spawned uWSGI worker 1 (pid: 16197, cores: 1)
+spawned uWSGI worker 2 (pid: 16198, cores: 1)
+spawned uWSGI worker 3 (pid: 16199, cores: 1)
+spawned uWSGI worker 4 (pid: 16200, cores: 1)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16199|app: 0|req: 1/1] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:57:53 2018] GET /admin/ => generated 0 bytes in 51 msecs (HTTP/1.1 500) 0 headers in 0 bytes (1 switches on core 0)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16197|app: 0|req: 1/2] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:57:54 2018] GET /admin/ => generated 0 bytes in 53 msecs (HTTP/1.1 500) 0 headers in 0 bytes (0 switches on core 0)
+Traceback (most recent call last):
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/wsgi.py", line 170, in __call__
+    response = self.get_response(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 124, in get_response
+    response = self._middleware_chain(request)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = response_for_exception(request, exc)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 86, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/core/handlers/exception.py", line 131, in handle_uncaught_exception
+    if resolver.urlconf_module is None:
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/urls/resolvers.py", line 306, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./django_my/urls.py", line 30, in <module>
+    url(r'', include('people.urls')),
+  File "/home/ubuntu/django_my/env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 50, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "./people/urls.py", line 5, in <module>
+    from .viewsets import CustomUserViewSet
+  File "./people/viewsets.py", line 14, in <module>
+    from common.tasks import send_mail
+  File "./common/tasks.py", line 6, in <module>
+    from celery import shared_task
+ImportError: No module named celery
+[pid: 16199|app: 0|req: 2/3] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 09:57:54 2018] GET /admin/ => generated 0 bytes in 5 msecs (HTTP/1.1 500) 0 headers in 0 bytes (0 switches on core 0)
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 0 seconds
+worker 2 buried after 0 seconds
+worker 3 buried after 0 seconds
+worker 4 buried after 0 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/ubuntu/django_my/src/django_my/my.sock removed.
+*** Starting uWSGI 2.0.17.1 (64bit) on [Sat Aug  4 18:00:13 2018] ***
+compiled with version: 5.4.0 20160609 on 03 August 2018 19:15:18
+os: Linux-4.10.1-041001-generic #201702260735 SMP Sun Feb 26 12:36:48 UTC 2017
+nodename: iZhp3cq93udl835m6etvgaZ
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/ubuntu/django_my/src/django_my
+detected binary path: /usr/local/bin/uwsgi
+chdir() to /home/ubuntu/django_my/src/django_my
+your processes number limit is 7840
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/ubuntu/django_my/src/django_my/my.sock fd 3
+Python version: 2.7.12 (default, Dec  4 2017, 14:50:18)  [GCC 5.4.0 20160609]
+Set PythonHome to /home/ubuntu/django_my/env
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x1f303d0
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 364600 bytes (356 KB) for 4 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x1f303d0 pid: 16366 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16366)
+spawned uWSGI worker 1 (pid: 16374, cores: 1)
+spawned uWSGI worker 2 (pid: 16375, cores: 1)
+spawned uWSGI worker 3 (pid: 16376, cores: 1)
+spawned uWSGI worker 4 (pid: 16377, cores: 1)
+[pid: 16376|app: 0|req: 1/1] 61.149.198.44 () {44 vars in 837 bytes} [Sat Aug  4 10:00:21 2018] GET / => generated 74 bytes in 190 msecs (HTTP/1.1 404) 2 headers in 80 bytes (2 switches on core 0)
+[pid: 16374|app: 0|req: 1/2] 61.149.198.44 () {42 vars in 818 bytes} [Sat Aug  4 10:00:26 2018] GET /admin/ => generated 31575 bytes in 270 msecs (HTTP/1.1 200) 7 headers in 405 bytes (2 switches on core 0)
+[pid: 16377|app: 0|req: 1/3] 61.149.198.44 () {42 vars in 764 bytes} [Sat Aug  4 10:00:27 2018] GET /admin/jetjsi18n/ => generated 7683 bytes in 189 msecs (HTTP/1.1 200) 2 headers in 79 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 2/4] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 10:00:50 2018] GET /admin/ => generated 31575 bytes in 50 msecs (HTTP/1.1 200) 7 headers in 405 bytes (2 switches on core 0)
+[pid: 16377|app: 0|req: 2/5] 61.149.198.44 () {42 vars in 764 bytes} [Sat Aug  4 10:00:50 2018] GET /admin/jetjsi18n/ => generated 7683 bytes in 2 msecs (HTTP/1.1 200) 2 headers in 79 bytes (1 switches on core 0)
+[pid: 16376|app: 0|req: 2/6] 61.149.198.44 () {44 vars in 849 bytes} [Sat Aug  4 10:00:51 2018] GET /admin/ => generated 31575 bytes in 76 msecs (HTTP/1.1 200) 7 headers in 405 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 3/7] 61.149.198.44 () {42 vars in 764 bytes} [Sat Aug  4 10:00:51 2018] GET /admin/jetjsi18n/ => generated 7683 bytes in 3 msecs (HTTP/1.1 200) 2 headers in 79 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 4/8] 61.149.198.44 () {42 vars in 818 bytes} [Sat Aug  4 10:05:26 2018] GET /admin/ => generated 31575 bytes in 51 msecs (HTTP/1.1 200) 7 headers in 405 bytes (2 switches on core 0)
+[pid: 16377|app: 0|req: 3/9] 61.149.198.44 () {42 vars in 764 bytes} [Sat Aug  4 10:05:27 2018] GET /admin/jetjsi18n/ => generated 7683 bytes in 2 msecs (HTTP/1.1 200) 2 headers in 79 bytes (1 switches on core 0)
+pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg
+pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg
+<img src="pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg" height=25 width=25 />
+46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg
+46_副本竖.jpg
+<img src="46_副本竖.jpg" height=25 width=25 />
+[pid: 16374|app: 0|req: 5/10] 61.149.198.44 () {44 vars in 897 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/people/customuser/ => generated 21856 bytes in 55 msecs (HTTP/1.1 200) 7 headers in 405 bytes (2 switches on core 0)
+[pid: 16376|app: 0|req: 3/11] 61.149.198.44 () {42 vars in 782 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/jetjsi18n/ => generated 7683 bytes in 4 msecs (HTTP/1.1 200) 2 headers in 79 bytes (1 switches on core 0)
+[pid: 16377|app: 0|req: 4/12] 61.149.198.44 () {42 vars in 776 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/jsi18n/ => generated 7758 bytes in 10 msecs (HTTP/1.1 200) 3 headers in 93 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 6/13] 61.149.198.44 () {42 vars in 968 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/people/customuser/pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg => generated 0 bytes in 1 msecs (HTTP/1.1 301) 2 headers in 179 bytes (1 switches on core 0)
+[pid: 16376|app: 0|req: 4/14] 61.149.198.44 () {42 vars in 970 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/people/customuser/pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg/ => generated 0 bytes in 3 msecs (HTTP/1.1 302) 7 headers in 366 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 7/15] 61.149.198.44 () {42 vars in 884 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/people/customuser/46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg => generated 0 bytes in 0 msecs (HTTP/1.1 301) 2 headers in 146 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 8/16] 61.149.198.44 () {42 vars in 886 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/people/customuser/46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg/ => generated 0 bytes in 7 msecs (HTTP/1.1 302) 7 headers in 333 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 9/17] 61.149.198.44 () {42 vars in 900 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/people/customuser/46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg/change/ => generated 122 bytes in 8 msecs (HTTP/1.1 404) 3 headers in 94 bytes (1 switches on core 0)
+[pid: 16375|app: 0|req: 1/18] 61.149.198.44 () {42 vars in 984 bytes} [Sat Aug  4 10:10:46 2018] GET /admin/people/customuser/pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg/change/ => generated 173 bytes in 202 msecs (HTTP/1.1 404) 3 headers in 94 bytes (1 switches on core 0)
+pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg
+pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg
+<img src="pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg" height=25 width=25 />
+46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg
+46_副本竖.jpg
+<img src="46_副本竖.jpg" height=25 width=25 />
+[pid: 16374|app: 0|req: 10/19] 61.149.198.44 () {46 vars in 928 bytes} [Sat Aug  4 10:10:49 2018] GET /admin/people/customuser/ => generated 21856 bytes in 51 msecs (HTTP/1.1 200) 7 headers in 405 bytes (2 switches on core 0)
+[pid: 16376|app: 0|req: 5/20] 61.149.198.44 () {42 vars in 782 bytes} [Sat Aug  4 10:10:49 2018] GET /admin/jetjsi18n/ => generated 7683 bytes in 6 msecs (HTTP/1.1 200) 2 headers in 79 bytes (1 switches on core 0)
+[pid: 16377|app: 0|req: 5/21] 61.149.198.44 () {42 vars in 776 bytes} [Sat Aug  4 10:10:49 2018] GET /admin/jsi18n/ => generated 7758 bytes in 7 msecs (HTTP/1.1 200) 3 headers in 93 bytes (1 switches on core 0)
+[pid: 16376|app: 0|req: 6/22] 61.149.198.44 () {42 vars in 970 bytes} [Sat Aug  4 10:10:49 2018] GET /admin/people/customuser/pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg/ => generated 0 bytes in 8 msecs (HTTP/1.1 302) 7 headers in 366 bytes (1 switches on core 0)
+[pid: 16375|app: 0|req: 2/23] 61.149.198.44 () {42 vars in 886 bytes} [Sat Aug  4 10:10:49 2018] GET /admin/people/customuser/46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg/ => generated 0 bytes in 24 msecs (HTTP/1.1 302) 7 headers in 333 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 11/24] 61.149.198.44 () {42 vars in 984 bytes} [Sat Aug  4 10:10:49 2018] GET /admin/people/customuser/pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg/change/ => generated 173 bytes in 10 msecs (HTTP/1.1 404) 3 headers in 94 bytes (1 switches on core 0)
+[pid: 16377|app: 0|req: 6/25] 61.149.198.44 () {42 vars in 900 bytes} [Sat Aug  4 10:10:49 2018] GET /admin/people/customuser/46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg/change/ => generated 122 bytes in 16 msecs (HTTP/1.1 404) 3 headers in 94 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 12/26] 61.149.198.44 () {44 vars in 933 bytes} [Sat Aug  4 10:10:53 2018] GET /admin/people/customuser/2/change/ => generated 26498 bytes in 64 msecs (HTTP/1.1 200) 7 headers in 405 bytes (2 switches on core 0)
+[pid: 16377|app: 0|req: 7/27] 61.149.198.44 () {42 vars in 791 bytes} [Sat Aug  4 10:10:53 2018] GET /admin/jetjsi18n/ => generated 7683 bytes in 2 msecs (HTTP/1.1 200) 2 headers in 79 bytes (1 switches on core 0)
+[pid: 16375|app: 0|req: 3/28] 61.149.198.44 () {42 vars in 785 bytes} [Sat Aug  4 10:10:53 2018] GET /admin/jsi18n/ => generated 7758 bytes in 7 msecs (HTTP/1.1 200) 3 headers in 93 bytes (1 switches on core 0)
+pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg
+pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg
+<img src="pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg" height=25 width=25 />
+46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg
+46_副本竖.jpg
+<img src="46_副本竖.jpg" height=25 width=25 />
+[pid: 16374|app: 0|req: 13/29] 61.149.198.44 () {44 vars in 897 bytes} [Sat Aug  4 10:10:59 2018] GET /admin/people/customuser/ => generated 21856 bytes in 55 msecs (HTTP/1.1 200) 7 headers in 405 bytes (2 switches on core 0)
+[pid: 16377|app: 0|req: 8/30] 61.149.198.44 () {42 vars in 970 bytes} [Sat Aug  4 10:10:59 2018] GET /admin/people/customuser/pro/test/people/avatar/a20df24a82c689d5a10aa7a04988d8703de881dc.jpg/ => generated 0 bytes in 20 msecs (HTTP/1.1 302) 7 headers in 366 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 14/31] 61.149.198.44 () {42 vars in 886 bytes} [Sat Aug  4 10:10:59 2018] GET /admin/people/customuser/46_%E5%89%AF%E6%9C%AC%E7%AB%96.jpg/ => generated 0 bytes in 4 msecs (HTTP/1.1 302) 7 headers in 333 bytes (1 switches on core 0)
+[pid: 16374|app: 0|req: 15/32] 144.48.9.22 () {36 vars in 418 bytes} [Sat Aug  4 10:27:46 2018] GET / => generated 74 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 80 bytes (2 switches on core 0)
+[pid: 16374|app: 0|req: 16/33] 164.215.247.246 () {32 vars in 454 bytes} [Sat Aug  4 12:10:56 2018] GET / => generated 74 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 80 bytes (2 switches on core 0)
+[pid: 16377|app: 0|req: 9/34] 92.222.167.125 () {36 vars in 433 bytes} [Sat Aug  4 12:11:44 2018] GET / => generated 74 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 80 bytes (2 switches on core 0)
+[pid: 16374|app: 0|req: 17/35] 5.188.210.12 () {46 vars in 567 bytes} [Sat Aug  4 12:26:04 2018] GET /echo.php => generated 82 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 80 bytes (2 switches on core 0)
+[pid: 16374|app: 0|req: 18/36] 189.102.180.136 () {26 vars in 271 bytes} [Sat Aug  4 13:40:20 2018] GET / => generated 26 bytes in 1 msecs (HTTP/1.0 400) 1 headers in 53 bytes (2 switches on core 0)
