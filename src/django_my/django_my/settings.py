@@ -191,3 +191,21 @@ STATIC_URL = '/static/'
 DEFAULT_PASSWORD = '123456'
 UPLOAD_ROOT = "pro/test"
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/ubuntu/django_my/src/django_my/debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
