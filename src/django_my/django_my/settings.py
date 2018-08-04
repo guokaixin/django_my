@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!qa3qszv1k9441)eex_a0to&njm^3rhty=p8v4ru$qk$4+dg7+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Application definition
 
@@ -186,7 +186,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 DEFAULT_PASSWORD = '123456'
-UPLOAD_ROOT = "pro/test"
+UPLOAD_ROOT = os.path.join(BASE_DIR, 'pro/test')
 
 LOGGING = {
     'version': 1,
