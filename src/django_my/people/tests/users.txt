@@ -1,0 +1,51 @@
+{
+    "vip_date": "", 
+    "password": "mjtt.1234", 
+    "type": "", 
+    "email": "testzhang@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "guokaixin@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "111111@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "22222@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "33333@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "33333@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "55555@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "6666@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "2@qq.com"
+}{
+    "vip_date": "", 
+    "password": "xinxin123", 
+    "type": "", 
+    "email": "3@qq.com"
+}
