@@ -1,3 +1,113 @@
+# -*- coding: utf-8 -*-
+from django.contrib.auth import password_validation
+from django.contrib.auth.models import User as Administrator
+
+
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+
+from libs.time_utils import datetime_to_localtime
+from libs.utils import is_validate_username, is_validate_china_mobile
+
+from common.utils.serializers import ModelSerializer
+from .models import CustomUser
+from .models import Business
+
+
+class BusinessSerializer(ModelSerializer):
+    code = serializers.CharField(max_length=32, required=True)
+    name = serializers.CharField(max_length=32, required=False)
+
+    class Meta:
+        model = Business
+        fields = ('code', 'name')
+
+    def validate_code(self, code):
+        if not Business.objects.filter(code=code).exists():
+            raise ValidationError('业务类型不存在')
+        return code
+
+
+password_validators = [
+        password_validation.MinimumLengthValidator(min_length=6).validate,
+        password_validation.CommonPasswordValidator().validate,
+        # password_validation.NumericPasswordValidator().validate,
+        ]
+
+
+class CustomUserSerializer(ModelSerializer):
+    username = serializers.CharField(
+        error_messages={'required': '姓名不能为空',
+                        'max_length': '姓名长度不得多于10位'},
+        required=True,
+        max_length=50)
+    mobile = serializers.CharField(
+        error_messages={'required': '手机号不能为空',
+                        'max_length': '手机号长度不得多于11位'},
+        max_length=11,
+        required=True)
+    company = serializers.CharField(
+        error_messages={'required': '公司名称不能为空',
+                        'max_length': '公司名称长度不得多于30位'},
+        required=False,
+        max_length=50)
+    password = serializers.CharField(required=False, validators=password_validators)
+    token = serializers.SerializerMethodField()
+    is_available = serializers.HiddenField(default=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'mobile', 'company', 'password', 'is_available', 'token')
+
+    def get_token(self, instance):
+        try:
+            return instance.user_token.key
+        except:
+            return ''
+
+    def validate_username(self, username):
+        if not is_validate_username(username):
+            raise ValidationError('姓名不合法')
+        return username
+
+    def validate_mobile(self, mobile):
+        if not is_validate_china_mobile(mobile):
+            raise ValidationError('手机号码不合法')
+        elif CustomUser.objects.filter(mobile=mobile).exists():
+            raise ValidationError('手机号码已占用')
+        return mobile
+
+
+class CustomUserProfileSerializer(ModelSerializer):
+    businesses = serializers.SerializerMethodField()
+    register_time = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'mobile', 'company', 'businesses', 'register_time')
+
+    def get_businesses(self, instance):
+        return instance.businesses.values_list('business__name', flat=True).distinct()
+
+    def get_register_time(self, instance):
+        return datetime_to_localtime(instance.dt_created)
+
+
+class CommonCustomUserProfileSerializer(ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'mobile', 'company')
+        read_only_fields = ('username', 'mobile', 'company')
+
+
+class AdministratorProfileSerializer(ModelSerializer):
+
+    class Meta:
+        model = Administrator
+        fields = ('id', 'username')
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -12,8 +122,6 @@ from .models import UserRole
 from .models import UserType
 from .models import UserToken
 from .models import CustomUser
-from .models import Platform
-from .models import UserPlatformShip
 
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
@@ -61,115 +169,9 @@ def email_validator(value):
         raise ValidationError('User Aleady Exists.')
 
 
-password_validators = [
-        password_validation.MinimumLengthValidator().validate,
-        password_validation.CommonPasswordValidator().validate,
-        # password_validation.NumericPasswordValidator().validate,
-        ]
-
-
 class UserPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return request.user == obj
 
     def has_permission(self, request, view):
         return request.method in ['POST', 'GET', 'PUT']
-
-
-class CustomUserSerializer(serializers.ModelSerializer):
-    # type = serializers.PrimaryKeyRelatedField(
-    #         read_only=True,
-    #         default=(UserType.objects.get_or_create(
-    #             id=1,
-    #             defaults={'code': 'default', 'name': 'default'},
-    #             ))[0],
-    #         )
-    # comment while migrate tables
-    default, is_create = UserRole.objects.get_or_create(code='DEFAULT', defaults={'name': 'DEFAULT'})
-    indi_free, is_create = UserType.objects.get_or_create(code='INDI-FREE', defaults={'name': 'INDI-FREE'})
-    audio_play, is_create = UserAuthority.objects.get_or_create(code='AUDIO-PLAY', defaults={'name': 'AUDIO-PLAY'})
-    role = serializers.SlugRelatedField(slug_field='code', default=default, queryset=UserRole.objects.all())
-    type = serializers.SlugRelatedField(slug_field='code', default=indi_free, queryset=UserType.objects.all())
-    authority = serializers.SlugRelatedField(slug_field='code', default=audio_play, queryset=UserAuthority.objects.all())
-    is_available = serializers.HiddenField(default=True)
-    username = serializers.CharField(required=False)
-    vip_date = serializers.DateField(required=False)
-    email = serializers.EmailField(validators=[email_validator], required=False)
-    mobile = serializers.RegexField('^1[3|4|5|7|8][0-9]\d{8}$', required=False)
-    nickname = serializers.CharField(required=False)
-    password = serializers.CharField(required=True, write_only=True, validators=password_validators)
-    platforms = serializers.SerializerMethodField()
-    token = serializers.SerializerMethodField()
-    platform = serializers.SerializerMethodField()
-
-
-    class Meta:
-        model = CustomUser
-        read_only_fields = ('vip_date', 'type', 'authority')
-        fields = ('id', 'username', 'email', 'mobile', 'nickname', 'avatar',
-                  'vip_date', 'balance', 'role', 'type', 'authority', 'password',
-                  'is_available', 'platforms', 'token', 'devicetoken', 'platform')
-
-    def get_token(self, instance):
-        try:
-            return instance.auth_tokens.last().key
-        except:
-            return ''
-
-    def get_platform(self, instance):
-        return instance.platform
-
-    def get_platforms(self, instance):
-        data = instance.platforms.values_list('platform__code', flat=True)
-        return list(data)
-
-    def validate_username(self, value):
-        if CustomUser.objects.filter(username=value).count():
-            raise ValidationError('Username Already Exists.')
-        return value
-
-    def validate_email(self, value):
-        if CustomUser.objects.filter(email=value).count():
-            raise ValidationError('Email Already Exists.')
-        return value
-
-
-class CustomUserProfileSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(required=False, write_only=True, validators=password_validators)
-
-    class Meta:
-        model = CustomUser
-        fields = (
-                'id',
-                'nickname',
-                'avatar',
-                'password',
-                'mobile',
-                "devicetoken"
-                )
-
-
-class CommonCustomUserProfileSerializer(serializers.ModelSerializer):
-    indi_free, is_create = UserType.objects.get_or_create(code='INDI-FREE', defaults={'name': 'INDI-FREE'})
-    audio_play, is_create = UserAuthority.objects.get_or_create(code='AUDIO-PLAY', defaults={'name': 'AUDIO-PLAY'})
-    type = serializers.SlugRelatedField(slug_field='code', default=indi_free, queryset=UserType.objects.all())
-
-    class Meta:
-        model = CustomUser
-        fields = (
-                'id',
-                'nickname',
-                'avatar',
-                'type',
-                )
-        read_only_fields = ('nickname', 'avatar')
-
-
-class PlatformSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Platform
-
-
-class UserPlatformShipSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserPlatformShip

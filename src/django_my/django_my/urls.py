@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """django_my URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -19,8 +20,8 @@ from rest_framework import routers
 from people import views
 
 admin.site.site_url = None
-admin.site.site_header = 'gkx_porject'
-admin.site.index_title = 'gkx_porject'
+admin.site.site_header = 'JIA瑞美妆"订单管理后台'
+admin.site.index_title = 'JIA瑞美妆"订单管理后台'
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewets)

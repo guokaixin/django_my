@@ -1,41 +1,65 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Create your models here.
-
-from django.utils.translation import ugettext_lazy as _
+from __future__ import unicode_literals
+import hashlib
+import sys
 from django.conf import settings
+from django.db.models.signals import post_save
+from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+from django.contrib.auth.hashers import is_password_usable
+from django.contrib.auth.hashers import make_password
+from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.hashers import is_password_usable
-from common.utils.manages import ExcludeDeleteManager
-from django.db import models
 from rest_framework.authtoken.models import Token
 from hashlib import sha1
 
+from common.utils.models import WithDeleteModel
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+
+def is_customuser(user):
+    return type(user) == CustomUser and (not user.is_superuser)
+
+
+def is_administrator(user):
+    return type(user) == CustomUser and user.is_superuser
+
 
 class UserToken(Token):
-    user = models.ForeignKey('people.CustomUser', related_name='auth_tokens', on_delete=models.CASCADE, verbose_name=_('user'))
-    key = models.CharField(max_length=40, primary_key=True, verbose_name=_('token'))
-    device_uuid = models.CharField(max_length=60, null=True, blank=True, verbose_name=_('device uuid'))
-    # device_info = models.TextField(blank=True, verbose_name=_('device info'))
+    user = models.OneToOneField('people.CustomUser', related_name='user_token', verbose_name='用户')
+    key = models.CharField(max_length=40, primary_key=True, verbose_name='Token')
 
     class Meta:
-        app_label = 'people'
-        verbose_name = _('user token')
-        verbose_name_plural = _('user tokens')
+        verbose_name = '用户Token'
+        verbose_name_plural = '用户Token'
+
+
+class UserAuthority(models.Model):
+    code = models.CharField(max_length=32, unique=True, verbose_name='编码')
+    name = models.CharField(max_length=32, unique=True, verbose_name='名称')
+    dt_created = models.DateTimeField(auto_now_add=True, verbose_name='创建于')
+    dt_updated = models.DateTimeField(auto_now=True, verbose_name='更新于')
+
+    class Meta:
+        verbose_name = '用户权限'
+        verbose_name_plural = '用户权限'
+        get_latest_by = 'id'
+
+    def __unicode__(self):
+        return self.name
 
 
 class UserType(models.Model):
-    code = models.CharField(max_length=32, unique=True, verbose_name=_('user type code'))
-    name = models.CharField(max_length=32, unique=True, verbose_name=_('user type name'))
-    dt_created = models.DateTimeField(auto_now_add=True, verbose_name=_('created datetime'))
-    dt_updated = models.DateTimeField(auto_now=True, verbose_name=_('updated datetime'))
+    code = models.CharField(max_length=32, unique=True, verbose_name='编码')
+    name = models.CharField(max_length=32, unique=True, verbose_name='名称')
+    dt_created = models.DateTimeField(auto_now_add=True, verbose_name='创建于')
+    dt_updated = models.DateTimeField(auto_now=True, verbose_name='更新于')
 
     class Meta:
-        app_label = 'people'
-        verbose_name = _('user type')
-        verbose_name_plural = _('user types')
+        verbose_name = '用户类型'
+        verbose_name_plural = '用户类型'
         get_latest_by = 'id'
 
     def __unicode__(self):
@@ -43,38 +67,39 @@ class UserType(models.Model):
 
 
 class UserRole(models.Model):
-    code = models.CharField(max_length=32, unique=True, verbose_name=_('user type code'))
-    name = models.CharField(max_length=32, unique=True, verbose_name=_('user type name'))
-    dt_created = models.DateTimeField(auto_now_add=True, verbose_name=_('created datetime'))
-    dt_updated = models.DateTimeField(auto_now=True, verbose_name=_('updated datetime'))
+    code = models.CharField(max_length=32, unique=True, verbose_name='编码')
+    name = models.CharField(max_length=32, unique=True, verbose_name='名称')
+    dt_created = models.DateTimeField(auto_now_add=True, verbose_name='创建于')
+    dt_updated = models.DateTimeField(auto_now=True, verbose_name='更新于')
 
     class Meta:
-        app_label = 'people'
-        verbose_name = _('user role')
-        verbose_name_plural = _('user roles')
+        verbose_name = '用户角色'
+        verbose_name_plural = '用户角色'
         get_latest_by = 'id'
 
     def __unicode__(self):
         return self.name
 
 
-class UserAuthority(models.Model):
-    code = models.CharField(max_length=32, unique=True, verbose_name=_('user authority code'))
-    name = models.CharField(max_length=32, unique=True, verbose_name=_('user authority name'))
-    dt_created = models.DateTimeField(auto_now_add=True, verbose_name=_('created datetime'))
-    dt_updated = models.DateTimeField(auto_now=True, verbose_name=_('updated datetime'))
+class Business(models.Model):
+    """
+    业务类型
+    """
+    code = models.CharField(max_length=32, unique=True, verbose_name='编码')
+    name = models.CharField(max_length=32, unique=True, verbose_name='名称')
+    dt_created = models.DateTimeField(auto_now_add=True, verbose_name='创建于')
+    dt_updated = models.DateTimeField(auto_now=True, verbose_name='更新于')
 
     class Meta:
-        app_label = 'people'
-        verbose_name = _('user authority')
-        verbose_name_plural = _('user authoritis')
+        verbose_name = '业务类型'
+        verbose_name_plural = '业务类型'
         get_latest_by = 'id'
 
     def __unicode__(self):
         return self.name
 
 
-def user_update_avatar_to(instance, filename):
+def user_avatar_upload_to(instance, filename):
     content = instance.avatar.file.read()
     sha1_hash = sha1(content).hexdigest()
     suffix = filename.split('.')[-1]
@@ -87,60 +112,65 @@ def user_update_avatar_to(instance, filename):
     return '/'.join(args)
 
 
+class AvailableUserManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        qs = super(AvailableUserManager, self).get_queryset(*args, **kwargs)
+        return qs.filter(is_available=True, is_superuser=False).exclude(mobile=settings.DEFAULT_USER_MOBILE)
+
+    def create_user(self, mobile, username, company, password, business_codes=None):
+        user, created = self.get_or_create(mobile=mobile, defaults={'username': username,
+                                                                    'company': company,
+                                                                    'password': make_password(password),
+                                                                    'is_available': True})
+        for business_code in business_codes:
+            UserBusiness.objects.get_or_create(user=user, business__code=business_code)
+        return user
+
+
 class CustomUser(AbstractUser):
+    code = models.CharField(max_length=40, verbose_name='编码', blank=True)
+    mobile = models.CharField(max_length=32, verbose_name='手机号码', blank=True, null=True)
+    username = models.CharField(max_length=100, verbose_name='用户名', blank=True, null=True)
+    nickname = models.CharField(max_length=100, verbose_name='昵称', blank=True, null=True)
+    password = models.CharField(u'登录密码', max_length=128,
+                                help_text=u'''请使用 '[algo]$[salt]$[hexdigest]' 这样的密码格式，或者 <a href="password/">点击此处</a> 修改该用户登录密码。''')
+    company = models.CharField(max_length=50, verbose_name='公司', blank=True, null=True)
+    avatar = models.ImageField(upload_to=user_avatar_upload_to, null=True, blank=True, verbose_name='用户头像')
 
-    UNKNOWN = 0
-    MALE = 1
-    FEMALE = 2
+    type = models.ForeignKey(UserType, verbose_name='用户类型', blank=True, null=True)
+    role = models.ForeignKey(UserRole, verbose_name='用户角色', blank=True, null=True)
+    authority = models.ForeignKey(UserAuthority, null=True, blank=True, verbose_name='用户权限')
 
-    CHOICES = (
-        (UNKNOWN, _('unknown')),
-        (MALE, _('male')),
-        (FEMALE, _('female')),
-    )
-    gender = models.PositiveSmallIntegerField(choices=CHOICES, default=UNKNOWN, db_index=True, verbose_name=_('gender'))
-    constellation = models.CharField(max_length=10, blank=True, null=True, verbose_name=_('constellation'))
-    introduction = models.TextField(blank=True, null=True, verbose_name=_('about self'))
-    mobile = models.CharField(max_length=32, blank=True, null=True, verbose_name=_('mobile'))
-    nickname = models.CharField(max_length=32, blank=True, null=True, verbose_name=_('nickname'))
-    avatar = models.ImageField(upload_to=user_update_avatar_to, blank=True, null=True, verbose_name=_('avatar'))
-    vip_start = models.DateField(null=True, blank=True, verbose_name=_('vip start'))
-    vip_date = models.DateField(null=True, blank=True, verbose_name=_('vip date'))
-    type = models.ForeignKey(UserType, verbose_name=_('user type'))
-    role = models.ForeignKey(UserRole, verbose_name=_('user role'), blank=True, null=True)
-    authority = models.ForeignKey(UserAuthority, null=True, blank=True, verbose_name=_('user authority'))
-    vip_remind = models.BooleanField(default=False, verbose_name=_("vip data end remind"))
-    remind_content = models.CharField(max_length=512, null=True, blank=True, verbose_name=_('remind content'))
-    platform = models.CharField(max_length=32, blank=True, null=True, verbose_name=_("platform"))
-    balance = models.PositiveIntegerField(_('virtual balance'), default=0, help_text=_('unit: mei'))
-    devicetoken = models.CharField(max_length=128, null=True, blank=True, verbose_name=_('devicetoken'))
-    is_deleted = models.BooleanField(default=False, verbose_name=_('is deleted'))
-    is_available = models.BooleanField(default=False, verbose_name=_('user is available'))
-    dt_created = models.DateTimeField(auto_now_add=True, verbose_name=_('created datetime'))
-    dt_updated = models.DateTimeField(auto_now=True, verbose_name=_('updated datetime'))
+    is_available = models.BooleanField(default=False, verbose_name='是否可用')
+    is_superuser = models.BooleanField(default=False, verbose_name='是否管理员')
+    dt_created = models.DateTimeField(auto_now_add=True, verbose_name='创建于')
+    dt_updated = models.DateTimeField(auto_now=True, verbose_name='更新于')
 
     groups = None  # models.ManyToManyField(Group, related_name='custom_users', verbose_name=_('group'))
 
     user_permissions = None  # models.ManyToManyField(Permission, related_name='custom_users')
 
     objects = UserManager()
-    no_deleted = ExcludeDeleteManager()
+    available_objects = AvailableUserManager()
 
     class Meta:
-        app_label = 'people'
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = '用户'
+        verbose_name_plural = '用户'
         get_latest_by = 'id'
 
     def __unicode__(self):
         return self.username
 
-    def delete(self):
-        self.is_deleted = True
-        self.save()
+    def generate_code(self):
+        m5 = hashlib.md5()
+        m5.update("%s-%s-%s-%s" % (
+            self.username.encode('utf-8'),
+            self.mobile,
+            self.company.encode('utf-8'),
+            self.dt_created.strftime('%Y-%m-%d %H:%M:%S')))
+        return m5.hexdigest().upper()
 
     def save(self, *args, **kwargs):
-        # update password to be hashed
         if not self.password:
             self.password = make_password(settings.DEFAULT_PASSWORD)
         if self.password and not is_password_usable(self.password):
@@ -148,43 +178,43 @@ class CustomUser(AbstractUser):
         return super(CustomUser, self).save(*args, **kwargs)
 
 
-class Platform(models.Model):
-    code = models.CharField(max_length=32, unique=True, verbose_name=_('code'))
-    name = models.CharField(max_length=32, unique=True, verbose_name=_('name'))
-    dt_created = models.DateTimeField(auto_now_add=True, verbose_name=_('created datetime'))
-    dt_updated = models.DateTimeField(auto_now=True, verbose_name=_('updated datetime'))
+def custom_user_post_save(sender, instance, created, **kwargs):
+    if not instance.code:
+        instance.code = instance.generate_code()
+        instance.save()
+    UserToken.objects.get_or_create(user=instance)
+
+
+post_save.connect(custom_user_post_save, sender=CustomUser)
+
+
+class AdministratorManager(models.manager.Manager):
+    def get_queryset(self):
+        queryset = super(AdministratorManager, self).get_queryset()
+        queryset = queryset.filter(is_superuser=True)
+        return queryset
+
+
+class Administrator(CustomUser):
+    objects = AdministratorManager()
 
     class Meta:
-        app_label = 'people'
-        verbose_name = _('user platform')
-        verbose_name_plural = _('user platforms')
+        verbose_name = '管理员'
+        verbose_name_plural = verbose_name
+        proxy = True
+
+
+class UserBusiness(models.Model):
+    user = models.ForeignKey(CustomUser, verbose_name='用户', related_name='businesses')
+    business = models.ForeignKey(Business, verbose_name='业务类型')
+    dt_created = models.DateTimeField(auto_now_add=True, verbose_name='创建于')
+    dt_updated = models.DateTimeField(auto_now=True, verbose_name='更新于')
+
+    class Meta:
+        verbose_name = '用户业务类型'
+        verbose_name_plural = '用户业务类型'
         get_latest_by = 'id'
 
     def __unicode__(self):
-        return self.code
+        return u'%s: %s' % (self.user, self.business)
 
-
-class UserPlatformShip(models.Model):
-    user = models.ForeignKey('people.CustomUser', related_name='platforms', verbose_name=_('user'))
-    platform = models.ForeignKey('people.Platform', related_name='users', verbose_name=_('platform'))
-    identifier = models.CharField(max_length=512, verbose_name=_('user platform identifier'))
-    # device_uuid = models.CharField(max_length=60, blank=True, verbose_name=_('device uuid'))
-    # device_info = models.TextField(blank=True, verbose_name=_('device info'))
-    # payload = models.TextField(verbose_name=_('user platform payload'))
-    # info = models.TextField(blank=True, verbose_name=_('user platform info'))
-    is_deleted = models.BooleanField(default=False, verbose_name=_('is deleted'))
-    dt_created = models.DateTimeField(auto_now_add=True, verbose_name=_('created datetime'))
-    dt_updated = models.DateTimeField(auto_now=True, verbose_name=_('updated datetime'))
-
-    class Meta:
-        app_label = 'people'
-        verbose_name = _('user platform ship')
-        verbose_name_plural = _('user platform ship')
-        get_latest_by = 'id'
-
-    def __unicode__(self):
-        return '%s - %s: %s)' % (self.platform.name, self.user.username, self.identifier)
-
-    def delete(self):
-        self.is_deleted = True
-        self.save()
