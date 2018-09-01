@@ -1,0 +1,11 @@
+2018-08-04 23:30:48,137 INFO daemonizing the supervisord process
+2018-08-04 23:30:48,137 INFO supervisord started with pid 18522
+2018-08-04 23:30:49,139 INFO spawned: 'django_my' with pid 18531
+2018-08-04 23:30:49,145 INFO exited: django_my (exit status 1; not expected)
+2018-08-04 23:30:50,147 INFO spawned: 'django_my' with pid 18532
+2018-08-04 23:30:50,153 INFO exited: django_my (exit status 1; not expected)
+2018-08-04 23:30:52,156 INFO spawned: 'django_my' with pid 18533
+2018-08-04 23:30:52,161 INFO exited: django_my (exit status 1; not expected)
+2018-08-04 23:30:55,166 INFO spawned: 'django_my' with pid 18544
+2018-08-04 23:30:55,171 INFO exited: django_my (exit status 1; not expected)
+2018-08-04 23:30:56,173 INFO gave up: django_my entered FATAL state, too many start retries too quickly
